@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TO DO LIST</title>
+</head>
+<style>
+    *,::after,::before{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    .container{
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: url(4.jpg);
+        background-size: 100vw 100vh;
+        gap: 1rem;
+    }
+    .todo-adder{
+        background-color: #e99318;
+        padding: 1rem 1.2rem;
+        border: 1px solid #002355;
+        border-radius: 10px;
+    }
+    #todo-input{
+        width: 20vw;
+        font-size: 1.5rem;
+        padding: .5rem;
+        border-radius: 8px;
+    }
+    #todo-input:focus{
+        outline: 2px solid;
+        outline-color: #002355;
+    }
+
+    #todo-add-btn{
+        width: 50px;
+        font-size: 1.5rem;
+        padding: 0.4rem;
+        border-radius: 8px;
+    }
+    #todo-add-btn:hover{
+        background-color: #e99318;
+        border-color: white;
+        color: white;
+    }
+    .todo-container{
+        width: 26vw;
+    }
+    .todo{
+        background-color: #e99318;
+        color: #002355;
+        padding: 1rem;
+        font-size: 1.5rem;
+    }
+</style>
+<body>
+    <div class="container">
+        <div class="todo-adder">
+            <input type="text" id="todo-input" placeholder="Enter Task">
+            <input type="button" value="+" id="todo-add-btn">
+        </div>
+        <div class="todo-container">
+            <p class="todo">123</p>
+        </div>
+    </div>
+    <script>
+        let todoList = [];
+        const todoAddBtn = document.querySelector("#todo-add-btn");
+        const todoInput = document.querySelector("#todo-input");
+        const todoContainer = document.querySelector(".todo-container");
+        todoAddBtn.addEventListener("click",()=>{
+            todoList.push(todoInput.value);
+            console.log(todoInput);
+            todoList.forEach(todo => {
+                console.log(todo);
+                let todoLine = document.createElement("p")
+                todoLine.innerText=`${todo}`;
+                todoLine.classList.add("todo")
+                // console.log(todoLine);
+                todoContainer.appendChild(todoLine);
+                // console.log(todo);
+            });
+        })
+    </script>
+</body>
+</html>
