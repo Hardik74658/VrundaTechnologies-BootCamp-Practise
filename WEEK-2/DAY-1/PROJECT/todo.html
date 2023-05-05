@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,12 +8,15 @@
     <title>TO DO LIST</title>
 </head>
 <style>
-    *,::after,::before{
+    *,
+    ::after,
+    ::before {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
     }
-    .container{
+
+    .container {
         width: 100vw;
         height: 100vh;
         display: flex;
@@ -23,44 +27,76 @@
         background-size: 100vw 100vh;
         gap: 1rem;
     }
-    .todo-adder{
-        background-color: #e99318;
+
+    .todo-adder {
+        background-color: #e99218a0;
         padding: 1rem 1.2rem;
         border: 1px solid #002355;
         border-radius: 10px;
     }
-    #todo-input{
+
+    #todo-input {
         width: 20vw;
         font-size: 1.5rem;
         padding: .5rem;
         border-radius: 8px;
     }
-    #todo-input:focus{
+
+    #todo-input:focus {
         outline: 2px solid;
         outline-color: #002355;
     }
 
-    #todo-add-btn{
+    #todo-add-btn {
         width: 50px;
         font-size: 1.5rem;
         padding: 0.4rem;
         border-radius: 8px;
     }
-    #todo-add-btn:hover{
+
+    #todo-add-btn:hover {
         background-color: #e99318;
         border-color: white;
         color: white;
     }
-    .todo-container{
-        width: 26vw;
-    }
-    .todo{
-        background-color: #e99318;
+
+    .todo-container {
+        background-color: #e99218a4;
         color: #002355;
-        padding: 1rem;
+        /* padding: 1rem; */
         font-size: 1.5rem;
+        border-radius: 10px;
+    }
+
+    .todo {
+        width: 70vw;
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+    }
+
+    .todo div {
+        width: 25vw;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .todo-btn {
+        padding: 0.5rem;
+        background-color: #002355;
+        color: white;
+        border: 1px solid white;
+        border-radius: 5px;
+    }
+
+    .line-through {
+        text-decoration: line-through;
     }
 </style>
+
 <body>
     <div class="container">
         <div class="todo-adder">
@@ -68,7 +104,7 @@
             <input type="button" value="+" id="todo-add-btn">
         </div>
         <div class="todo-container">
-            <p class="todo">123</p>
+
         </div>
     </div>
     <script>
@@ -76,19 +112,64 @@
         const todoAddBtn = document.querySelector("#todo-add-btn");
         const todoInput = document.querySelector("#todo-input");
         const todoContainer = document.querySelector(".todo-container");
-        todoAddBtn.addEventListener("click",()=>{
+        todoAddBtn.addEventListener("click", () => {
+            todoContainer.innerHTML = "";
             todoList.push(todoInput.value);
             console.log(todoInput);
-            todoList.forEach(todo => {
-                console.log(todo);
-                let todoLine = document.createElement("p")
-                todoLine.innerText=`${todo}`;
-                todoLine.classList.add("todo")
-                // console.log(todoLine);
-                todoContainer.appendChild(todoLine);
-                // console.log(todo);
-            });
+            updateList();
         })
+
+
+        function updateList() {
+            todoContainer.innerHTML = "";
+            var i = 0;
+            todoList.forEach(todo => {
+                let todoLine = document.createElement("p");
+                todoLine.innerHTML = `${todo}
+                                    <div>
+                                    <button class="todo-btn complete-btn " id="${i}" onclick = "complete(event)">Complete</button>
+                                    <button class="todo-btn edit-btn" id="${i}" onclick="edit(event)">Edit</button>
+                                    <button class="todo-btn delete-btn"id="${i++}"  onclick="deleteTodo(event)">Delete</button>
+                                    </div>
+                                    `;
+                todoLine.classList.add("todo");
+                todoContainer.appendChild(todoLine);
+            });
+        }
+
+        function complete(event) {
+            const completeBtn = event.target;
+            if (!completeBtn.parentElement.parentElement.classList.contains("line-through")) {
+                completeBtn.parentElement.parentElement.classList.add("line-through");
+            }
+            else {
+                completeBtn.parentElement.parentElement.classList.remove("line-through");
+            }
+        }
+        function edit(event) {
+            const editBtn = event.target;
+            if (editBtn.parentElement.parentElement.classList.contains("line-through")) {
+                alert("The Task Is Already Completed")
+            }
+            else {
+                const value = event.target.parentElement.parentElement.innerText;
+                const clippedText = value.split("\n")[0];
+                let id = event.target.id;
+                newItemName = prompt(`Eneter New Value For ${clippedText} : `);
+                todoList[id] = newItemName;
+                updateList();
+            }
+
+        }
+
+        function deleteTodo(event) {
+            const deleteBtn = event.target;
+            deleteBtn.parentElement.parentElement.parentElement.removeChild(deleteBtn.parentElement.parentElement);
+            const id = event.target.id;
+            todoList.pop(id);
+        }
+
     </script>
 </body>
+
 </html>
